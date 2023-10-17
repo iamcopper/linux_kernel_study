@@ -15,19 +15,19 @@ static LIST_HEAD(carlist);
 int main(int argc, char *argv[])
 {
 	struct car *redcar = malloc(sizeof(struct car));
-	redcar->doornum = 4;
+	redcar->doornum = 3;
 	redcar->color = "RED";
 	redcar->model = "V3";
 	INIT_LIST_HEAD(&redcar->list);
 
 	struct car *bluecar = malloc(sizeof(struct car));
-	bluecar->doornum = 5;
+	bluecar->doornum = 4;
 	bluecar->color = "BLUE";
 	bluecar->model = "V4";
 	INIT_LIST_HEAD(&bluecar->list);
 
 	struct car yellowcar = {
-		.doornum = 4,
+		.doornum = 8,
 		.color = "YELLOW",
 		.model = "V8",
 		.list = LIST_HEAD_INIT(yellowcar.list),
@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 	printf("Found %d blue car(s)\n\n", bluecar_num);
 
 	list_del(&bluecar->list);
+
 	i = 0;
 	bluecar_num = 0;
 	list_for_each_entry(acar, &carlist, list)
@@ -66,7 +67,16 @@ int main(int argc, char *argv[])
 		if (strcmp(acar->color, "BLUE") == 0)
 			bluecar_num++;
 	}
-	printf("Found %d blue car(s)\n", bluecar_num);
+	printf("Found %d blue car(s)\n\n", bluecar_num);
+
+	i = 0;
+	list_for_each_entry_reverse(acar, &carlist, list)
+	{
+		printf(">>> [i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
+				i++, acar->doornum, acar->color, acar->model);
+		if (strcmp(acar->color, "BLUE") == 0)
+			bluecar_num++;
+	}
 
 	return 0;
 }
