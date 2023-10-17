@@ -54,8 +54,19 @@ int main(int argc, char *argv[])
 		if (strcmp(acar->color, "BLUE") == 0)
 			bluecar_num++;
 	}
+	printf("Found %d blue car(s)\n\n", bluecar_num);
 
-	printf("\nFound %d blue car(s)\n", bluecar_num);
+	list_del(&bluecar->list);
+	i = 0;
+	bluecar_num = 0;
+	list_for_each_entry(acar, &carlist, list)
+	{
+		printf(">>> [i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
+				i++, acar->doornum, acar->color, acar->model);
+		if (strcmp(acar->color, "BLUE") == 0)
+			bluecar_num++;
+	}
+	printf("Found %d blue car(s)\n", bluecar_num);
 
 	return 0;
 }
