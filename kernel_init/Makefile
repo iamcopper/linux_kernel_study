@@ -4,7 +4,7 @@ CFLAGS := -Wall -c -Werror
 LDFLAGS :=
 
 OBJS := main.o a.o b.o
-OUT := test
+OUT := main
 
 ifeq ($(DEBUG),1)
 CFLAGS+= -g
@@ -17,4 +17,4 @@ $(OUT): $(OBJS)
 
 .PHONY: clean
 clean:
-	rm $(OBJS) $(OUT)
+	rm -f $(OBJS) $(OUT)
