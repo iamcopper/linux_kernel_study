@@ -78,5 +78,8 @@ int main(int argc, char *argv[])
 			bluecar_num++;
 	}
 
+	free(redcar);
+	free(bluecar);
+
 	return 0;
 }
