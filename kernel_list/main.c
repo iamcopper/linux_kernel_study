@@ -45,11 +45,12 @@ int main(int argc, char *argv[])
 	list_add_tail(&yellowcar.list, &carlist);
 #endif
 
+	printf(">>> Before list_del(), run list_for_each_entry()\n");
 	struct car *acar;
 	int i = 0, bluecar_num = 0;
 	list_for_each_entry(acar, &carlist, list)
 	{
-		printf(">>> [i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
+		printf("[i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
 				i++, acar->doornum, acar->color, acar->model);
 		if (strcmp(acar->color, "BLUE") == 0)
 			bluecar_num++;
@@ -58,25 +59,28 @@ int main(int argc, char *argv[])
 
 	list_del(&bluecar->list);
 
+	printf(">>> After list_del(), run list_for_each_entry()\n");
 	i = 0;
 	bluecar_num = 0;
 	list_for_each_entry(acar, &carlist, list)
 	{
-		printf(">>> [i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
+		printf("[i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
 				i++, acar->doornum, acar->color, acar->model);
 		if (strcmp(acar->color, "BLUE") == 0)
 			bluecar_num++;
 	}
 	printf("Found %d blue car(s)\n\n", bluecar_num);
 
+	printf(">>> After list_del(), run list_for_each_entry_reverse()\n");
 	i = 0;
 	list_for_each_entry_reverse(acar, &carlist, list)
 	{
-		printf(">>> [i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
+		printf("[i=%d] acar->doornum=%d, acar->color=%s, acar->model=%s\n",
 				i++, acar->doornum, acar->color, acar->model);
 		if (strcmp(acar->color, "BLUE") == 0)
 			bluecar_num++;
 	}
+	printf("Found %d blue car(s)\n\n", bluecar_num);
 
 	free(redcar);
 	free(bluecar);
