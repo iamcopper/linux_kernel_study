@@ -1,0 +1,17 @@
+# Global
+*tags
+*.swp
+a.out
+main
+
+# C
+*.o
+
+# Driver
+*.ko
+*.order
+*.symvers
+*.cmd
+*.mod
+*.mod.c
+*.mod.o
