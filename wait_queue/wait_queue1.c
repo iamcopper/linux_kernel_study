@@ -14,37 +14,62 @@ DECLARE_WAIT_QUEUE_HEAD(wq);
 
 static int thread_func_1(void *data)
 {
-	int i = 0;
-	while (i++ < 100) {
-		wait_event(wq, condition == 1);
-		msleep(1000);
-		printk(">>>>>this task 1\n");
+	printk(">>>>>task 1 enter and wait_event\n");
+	wait_event(wq, condition == 1);
+	printk(">>>>>task 1 is woke up, start while\n");
+	while(1)
+	{
+		if (kthread_should_stop())
+		{
+			printk(">>>>>task 1 stop and exit\n");
+			return 0;
+		}
+		msleep(3000);
+		printk(">>>>>task 1 in while\n");
 	}
+	printk(">>>>>task 1 exit\n");
 	return 0;
 }
 
 static int thread_func_2(void *data)
 {
-	int i = 0;
-	while (i++ < 100) {
-		wait_event(wq, condition == 1);
-		msleep(1000);
-		printk(">>>>>this task 2\n");
+	printk(">>>>>task 2 enter and wait_event\n");
+	wait_event(wq, condition == 1);
+	printk(">>>>>task 2 is woke up, start while\n");
+	while(1)
+	{
+		if (kthread_should_stop())
+		{
+			printk(">>>>>task 2 stop and exit\n");
+			return 0;
+		}
+		msleep(3000);
+		printk(">>>>>task 2 in while\n");
 	}
+	printk(">>>>>task 2 exit\n");
 	return 0;
 }
 
 static int thread_func_3(void *data)
 {
-	int i = 0;
-	while (i++ < 10) {
-		condition = 0;
-		msleep(2000);
-		printk(">>>>>this task 3\n");
-		condition = 1;
-		wake_up(&wq);
-		msleep(2000);
+	printk(">>>>>task 3 enter\n");
+	printk(">>>>>task 3 sleep 2s\n");
+	msleep(2000);
+	printk(">>>>>task 3 set condition and wait_up\n");
+	condition = 1;
+	wake_up(&wq);
+	printk(">>>>>task 3 start while\n");
+	while(1)
+	{
+		if (kthread_should_stop())
+		{
+			printk(">>>>>task 3 stop and exit\n");
+			return 0;
+		}
+		msleep(3000);
+		printk(">>>>>task 3 in while\n");
 	}
+	printk(">>>>>task 3 exit\n");
 	return 0;
 }
 
@@ -81,20 +106,17 @@ static void __exit wait_queue1_exit(void)
 
 	if (!IS_ERR(task_1)) {
 		ret = kthread_stop(task_1);
-		if (ret > 0)
-			printk("<<<<<<<<%d\n", ret);
+		printk("task_1 ret=%d\n", ret);
 	}
 
 	if (!IS_ERR(task_2)) {
 		ret = kthread_stop(task_2);
-		if (ret > 0)
-			printk("<<<<<<<<%d\n", ret);
+		printk("task_2 ret=%d\n", ret);
 	}
 
 	if (!IS_ERR(task_3)) {
 		ret = kthread_stop(task_3);
-		if (ret > 0)
-			printk("<<<<<<<<%d\n", ret);
+		printk("task_3 ret=%d\n", ret);
 	}
 }
 
