@@ -1,20 +1,35 @@
-CROSS_COMPILE ?=
+#CROSS_COMPILE ?= aarch64-linux-gnu-
 CC := gcc
-CFLAGS := -Wall -c -Werror
-LDFLAGS :=
+RM := -rm -f
+DEPDIR = .dep
+ODIR = .build
 
-OBJS := main.o
-OUT := main
+EXTRAINCDIRS :=
 
-ifeq ($(DEBUG),1)
-CFLAGS+= -g
-endif
+CFLAGS = -Wall -Werror -g
+CFLAGS += -MMD -MP -MF .dep/$(@F).d
+CFLAGS += $(patsubst %,-I %,$(EXTRAINCDIRS))
 
-$(OUT): $(OBJS)
-	$(CROSS_COMPILE)$(CC) $^ -o $@ $(LDFLAGS)
-%.o: %.c
-	$(CROSS_COMPILE)$(CC) $^ -o $@ $(CFLAGS)
+LFLAGS :=
 
-.PHONY: clean
+OUT := $(shell basename $(shell pwd))
+
+OBJS := $(patsubst %.c,%.o,$(wildcard *.c))
+
+all: $(OUT)
+
+$(OUT): $(addprefix $(ODIR)/,$(OBJS))
+	$(CROSS_COMPILE)$(CC) $^ -o $@ $(LFLAGS)
+
+$(ODIR)/%.o: %.c
+	@echo ">>> $<"
+	@mkdir -p $(@D)
+	$(CROSS_COMPILE)$(CC) $(CFLAGS) -c $< -o $@
+
+include $(shell mkdir $(DEPDIR) 2>/dev/null) $(wildcard $(DEPDIR)/*)
+
 clean:
-	rm -f $(OBJS) $(OUT)
+	$(RM) *.o
+	$(RM) -r $(DEPDIR) $(ODIR) $(OUT)
+
+.PHONY: all clean
