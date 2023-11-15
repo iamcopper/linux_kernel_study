@@ -24,7 +24,7 @@ static void work_handler(struct work_struct *work)
 	wake_up_interruptible(&dev->wq);
 }
 
-static int __init waitqueue_init(void)
+static int __init wait_queue2_init(void)
 {
 	pr_info("%s\n", __func__);
 
@@ -45,7 +45,7 @@ static int __init waitqueue_init(void)
 	return 0;
 }
 
-static void __exit waitqueue_exit(void)
+static void __exit wait_queue2_exit(void)
 {
 	pr_info("%s\n", __func__);
 
@@ -53,7 +53,7 @@ static void __exit waitqueue_exit(void)
 		kfree(dev);
 }
 
-module_init(waitqueue_init);
-module_exit(waitqueue_exit);
+module_init(wait_queue2_init);
+module_exit(wait_queue2_exit);
 MODULE_AUTHOR("iamcopper<kangpan519@gmail.com>");
 MODULE_LICENSE("GPL v2");

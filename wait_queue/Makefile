@@ -25,7 +25,7 @@ modules modules_install clean help:
 
 else
 
-obj-m := waitqueue1.o
-obj-m += waitqueue2.o
+obj-m := wait_queue1.o
+obj-m += wait_queue2.o
 
 endif

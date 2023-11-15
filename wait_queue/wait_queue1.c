@@ -48,7 +48,7 @@ static int thread_func_3(void *data)
 	return 0;
 }
 
-static int __init waitqueue_init(void)
+static int __init wait_queue1_init(void)
 {
 	printk("%s\n", __func__);
 	condition = 0;
@@ -73,7 +73,7 @@ static int __init waitqueue_init(void)
 	return 0;
 }
 
-static void __exit waitqueue_exit(void)
+static void __exit wait_queue1_exit(void)
 {
 	int ret = 0;
 
@@ -98,8 +98,8 @@ static void __exit waitqueue_exit(void)
 	}
 }
 
-module_init(waitqueue_init);
-module_exit(waitqueue_exit);
+module_init(wait_queue1_init);
+module_exit(wait_queue1_exit);
 MODULE_AUTHOR("iamcopper<kangpan519@gmail.com>");
 MODULE_LICENSE("GPL v2");
 
